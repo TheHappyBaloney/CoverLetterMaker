@@ -12,6 +12,7 @@ from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
 import os
 import io
+import shutil
 
 load_dotenv()
 
@@ -50,7 +51,7 @@ def get_qa_chain(company_name, role_name, job_desc):
     prompt_template = f"""
     Context: \n {{context}}?\n
     Description: \n {{Description}}?\n
-    Based on the resume PDF file provided and the context of the {job_desc} for the role of {role_name} at [Company_Name], generate a cover letter for the user. 
+    Based on the resume PDF file provided and the context of the {job_desc} for the role of {role_name}, generate a cover letter for the user. 
     Address the letter to "Dear Team {company_name}". 
     Start with the sentence: "Based on the job posting for the role of {role_name}, I would like to express my candidacy, as I believe my current skill set and future career goals align well with the position offered." 
     Highlight the user's work experience mentioned in the resume pdf(if any), projects(if any), volunteer work, extracurricular activities, and soft skills. 
@@ -59,7 +60,7 @@ def get_qa_chain(company_name, role_name, job_desc):
     Highlight the skills and projects more that are relevant to the job description but do not add anything if not already in pdf.
     End the letter with the user's name.
     If the user has no work experience, mention that they are a fresh graduate and are eager to learn and contribute to the company. 
-    If the user has no projects, mention that they are eager to work on projects and learn new technologies at [company].
+    If the user has no projects, mention that they are eager to work on projects and learn new technologies at the company.
     If the details about user are not available in the provided context, just say "Resume data insufficient. Please modify resume."
     Do not provide wrong information in the cover letter.
     Do not fabricate any information.\n\n
@@ -102,6 +103,10 @@ def user_input(job_desc, company_name, role_name):
 def main():
     st.title("Jobless Developer's Aid 👩🏾‍💻")
     st.header("Upload resume PDF file, enter the job description and generate a cover letter.")
+    
+    # Delete faiss_index if it exists
+    if os.path.exists("faiss_index"):
+        shutil.rmtree("faiss_index")
     
     # File upload
     pdf_docs = st.file_uploader("Upload Resume PDF and Click on Submit & Process", type="pdf")
