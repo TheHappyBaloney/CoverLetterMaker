@@ -19,9 +19,6 @@ load_dotenv()
 
 genai.configure(api_key = os.environ['GOOGLE_API_KEY'])
 
-if not GOOGLE_API_KEY:
-    raise ValueError("Google API key not found in environment variables")
-
 # Function to extract text from PDF
 
 def get_pdf_text(pdf_bytes):
