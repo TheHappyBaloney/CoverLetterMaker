@@ -104,32 +104,26 @@ def main():
     st.title("Jobless Developer's Aid 👩🏾‍💻")
     st.header("Upload resume PDF file, enter the job description and generate a cover letter.")
     
-    # Delete faiss_index if it exists
-    if os.path.exists("faiss_index"):
-        shutil.rmtree("faiss_index")
-    
     # File upload
     pdf_docs = st.file_uploader("Upload Resume PDF and Click on Submit & Process", type="pdf")
-    if st.button("Submit & Process"):
-        with st.spinner("Processing..."):
-            if pdf_docs is not None:
-                pdf_bytes = pdf_docs.read()
-                text = get_pdf_text(pdf_bytes)
-                text_chunks = get_text_chunks(text)
-                get_vector_store(text_chunks)
-            st.success("Processing Done! 🎉")
-
     # Job description input
     company_name = st.text_input("Enter Company Name")
     role_name = st.text_input("Enter Role Name")
     job_desc = st.text_area("Copy-Paste The Job Description")
- 
-    # Generate cover letter button
-    if st.button("Generate Cover Letter"):
-        if pdf_docs is not None and company_name and role_name and job_desc:
-            user_input(job_desc, company_name, role_name)
-        else:
-            st.write("Please upload a resume PDF file.")
+    if st.button("Submit & Process"):
+        with st.spinner("Processing..."):
+            if pdf_docs is not None and company_name and role_name and job_desc:
+                pdf_bytes = pdf_docs.read()
+                text = get_pdf_text(pdf_bytes)
+                text_chunks = get_text_chunks(text)
+                get_vector_store(text_chunks)
+                st.success("Processing Done! 🎉")
+                user_input(job_desc, company_name, role_name)
+                # Delete faiss_index if it exists
+                if os.path.exists("faiss_index"):
+                    shutil.rmtree("faiss_index")
+                else:
+                    st.write("Please upload a resume PDF file.")
 
 
 if __name__ == "__main__":
