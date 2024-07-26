@@ -17,7 +17,8 @@ load_dotenv()
 
 # API Configuration
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+genai.configure(api_key = os.environ['GOOGLE_API_KEY'])
+
 if not GOOGLE_API_KEY:
     raise ValueError("Google API key not found in environment variables")
 
