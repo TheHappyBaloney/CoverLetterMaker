@@ -117,7 +117,7 @@ def main():
                 text = get_pdf_text(pdf_bytes)
                 text_chunks = get_text_chunks(text)
                 get_vector_store(text_chunks)
-                st.success("Processing Done! 🎉")
+                st.success("Cover Letter is ready! 🎉")
                 user_input(job_desc, company_name, role_name)
                 # Delete faiss_index if it exists
                 if os.path.exists("faiss_index"):
