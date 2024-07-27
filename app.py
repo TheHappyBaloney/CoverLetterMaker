@@ -101,7 +101,8 @@ def user_input(job_desc, company_name, role_name):
 # Streamlit App Configuration
 
 def main():
-    st.title("Jobless Developer's Aid 👩🏾‍💻")
+    st.set_page_config(page_title="Jobless Dev's Aid", page_icon="📝")
+    st.title("👩🏾‍💻 Jobless Developer's Aid 👩🏾‍💻")
     st.header("Upload resume PDF file, enter the job description and generate a cover letter.")
     
     # File upload
